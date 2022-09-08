@@ -12,14 +12,17 @@ while True:
     print("Olá eu sou a harmony. Escreva 'voz' para falar comigo ou 'texto' para escrever comigo ou 'sair' para sair")
     robo.say("Olá eu sou a harmony. Escreva 'voz' para falar comigo ou 'texto' para escrever comigo ou 'sair' para sair")
     robo.runAndWait()
-    resposta = input("Escreva 'voz' ou 'texto' para escolher o modo ou 'sair' para sair: ")
+    resposta = input("Escreva Aqui:")
     print("voce escolheu: " + resposta)
     if resposta == "voz":
         os.system("HarmonyVoz.py")
+        break
     elif resposta == "texto":
         os.system("HarmonyChat.py")
+        
     elif resposta == "sair":
         print("Até mais!")
+        break
     else:
         print("Opção inválida, tente novamente!")
         continue

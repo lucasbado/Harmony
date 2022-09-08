@@ -125,6 +125,14 @@ with sr.Microphone(2) as source:
            
        
             if "criar rotina" in resposta:
+                robo.say("Qual o nome da rotina?")
+                print("Qual o nome da rotina?")
+                robo.runAndWait()
+                audio = recon.listen(source)
+                nome = recon.recognize_google(audio, language='pt-BR')
+                recon.adjust_for_ambient_noise(source, duration=4)
+                arquivo = open("Name: " + nome + ".txt", "w")
+                
                 robo.say("Para quando deseja criar a rotina?")
                 print("Para quando deseja criar a rotina?")
                 robo.runAndWait()
@@ -137,7 +145,7 @@ with sr.Microphone(2) as source:
                 if diasDaSemana or "Hoje" or "amanhã" in resposta:
                     robo.say("Criando rotina para " + resposta)
                     print("Criando rotina para " + resposta)
-                    arquivo = open(resposta + ".txt", "w")
+                    arquivo = open("Dia da semana: " + resposta + ".txt", "w")
                     robo.runAndWait()
 
                     robo.say("Qual horario deseja criar a rotina?")
@@ -149,7 +157,7 @@ with sr.Microphone(2) as source:
                     recon.adjust_for_ambient_noise(source, duration=4)
                     resposta = res.lower()
                     print("Texto reconhecido: ", resposta)
-                    arquivo.write(resposta + "\n")
+                    arquivo.write("Horario" + resposta + "\n")
 
                     robo.say("Qual nome da planta que deseja criar a rotina?")
                     print("Qual nome da planta que deseja criar a rotina?")
@@ -178,7 +186,19 @@ with sr.Microphone(2) as source:
                     print("Arquivo criado com sucesso")
                     robo.runAndWait()
                     break
-
+            
+            if "ler rotina" in resposta:
+                robo.say("Qual o nome da rotina?")
+                print("Qual o nome da rotina?")
+                robo.runAndWait()
+                audio = recon.listen(source)
+                nome = recon.recognize_google(audio, language='pt-BR')
+                recon.adjust_for_ambient_noise(source, duration=4)
+                arquivo = open("Name: " + nome + ".txt", "r")
+                print(arquivo.read())
+                robo.say(arquivo.read())
+                robo.runAndWait()
+                break
             
 
             if "saindo" in resposta:
