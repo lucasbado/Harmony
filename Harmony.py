@@ -7,7 +7,6 @@ import pyttsx3
 robo = pyttsx3.init()
 
 
-
 while True:
     print("Olá eu sou a harmony. Escreva 'voz' para falar comigo ou 'texto' para escrever comigo ou 'sair' para sair")
     robo.say("Olá eu sou a harmony. Escreva 'voz' para falar comigo ou 'texto' para escrever comigo ou 'sair' para sair")
@@ -17,10 +16,10 @@ while True:
     if resposta == "voz":
         os.system("HarmonyVoz.py")
         break
-    elif resposta == "texto":
+    if resposta == "texto":
         os.system("HarmonyChat.py")
-        
-    elif resposta == "sair":
+        break
+    if resposta == "sair":
         print("Até mais!")
         break
     else:

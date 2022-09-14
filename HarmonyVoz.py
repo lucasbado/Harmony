@@ -4,7 +4,10 @@ import speech_recognition as sr
 import pyttsx3
 import pyautogui as ag
 from Api import Weather
+from pathlib import Path
+import json
 
+dict1 = {}
 recon = sr.Recognizer()
 resposta = ""
 hora = (str(datetime.today().hour) + ":" + str(datetime.today().minute))
@@ -14,11 +17,10 @@ diasDaSemana = ("segunda-feira", "terça-feira", "quarta-feira", "quinta-feira",
 
 parar = False
 
-with sr.Microphone(2) as source:
+with sr.Microphone(1) as source:
     while not "não" in resposta:
-        
         robo = pyttsx3.init()
-        robo.say("Posso ajudar em alguma coisa?")
+        robo.say(" Posso ajudar em alguma coisa?")
         print("Posso ajudar em alguma coisa?")
         voices = robo.getProperty('voices')
         robo.setProperty("brazil", voices[2].id)
@@ -31,8 +33,8 @@ with sr.Microphone(2) as source:
         while True:
 
             audio = recon.listen(source)
+            recon.adjust_for_ambient_noise(source, duration=0.2)
             res = recon.recognize_google(audio, language='pt-BR')
-            recon.adjust_for_ambient_noise(source, duration=4)
             resposta = res.lower()
             print("Texto reconhecido: ", resposta)
             
@@ -78,8 +80,9 @@ with sr.Microphone(2) as source:
                     voices = robo.getProperty('voices')
                     robo.runAndWait()
                     audio = recon.listen(source)
+                    recon.adjust_for_ambient_noise(source)
                     res = recon.recognize_google(audio, language='pt-BR')
-                    recon.adjust_for_ambient_noise(source, duration=4)
+                   
                     resposta = res.lower()
                     print("Texto reconhecido: ", resposta)
                     if "sim" in resposta:
@@ -114,8 +117,9 @@ with sr.Microphone(2) as source:
                 print("Qual a cidade?")
                 robo.runAndWait()
                 audio = recon.listen(source)
+                recon.adjust_for_ambient_noise(source)
                 clima = recon.recognize_google(audio, language='pt-BR')
-                recon.adjust_for_ambient_noise(source, duration=4)
+               
                 city = clima.lower()
                 print (Weather.get_weather(city))
                 robo.say(Weather.get_weather(city))
@@ -125,78 +129,92 @@ with sr.Microphone(2) as source:
            
        
             if "criar rotina" in resposta:
-                robo.say("Qual o nome da rotina?")
+                robo.say("Qual o nome da planta?")
                 print("Qual o nome da rotina?")
                 robo.runAndWait()
                 audio = recon.listen(source)
+                recon.adjust_for_ambient_noise(source)
                 nome = recon.recognize_google(audio, language='pt-BR')
-                recon.adjust_for_ambient_noise(source, duration=4)
-                arquivo = open("Name: " + nome + ".txt", "w")
+               
+                Path('./Rotinas').mkdir(parents=True, exist_ok=True)
+                arquivo = open("./Rotinas/" + nome + ".json", "w")
+                arquivo.write("Nome: " + nome + "\n")
                 
-                robo.say("Para quando deseja criar a rotina?")
-                print("Para quando deseja criar a rotina?")
+                # robo.say("Para quando deseja criar a rotina?")
+                # print("Para quando deseja criar a rotina?")
+                # robo.runAndWait()
+                # audio = recon.listen(source)
+                recon.adjust_for_ambient_noise(source)
+                # res = recon.recognize_google(audio, language='pt-BR')
+                #
+                # resposta = res.lower()
+                # print("Texto reconhecido: ", resposta)
+                
+                robo.say("Qual o horário da rotina?")
+                print("Qual o horário da rotina?")
                 robo.runAndWait()
                 audio = recon.listen(source)
+                recon.adjust_for_ambient_noise(source)
                 res = recon.recognize_google(audio, language='pt-BR')
-                recon.adjust_for_ambient_noise(source, duration=4)
-                resposta = res.lower()
-                print("Texto reconhecido: ", resposta)
-                
-                if diasDaSemana or "Hoje" or "amanhã" in resposta:
-                    robo.say("Criando rotina para " + resposta)
-                    print("Criando rotina para " + resposta)
-                    arquivo = open("Dia da semana: " + resposta + ".txt", "w")
-                    robo.runAndWait()
+               
+                horario = res.lower()
+                print("Texto reconhecido: ", horario)
+                arquivo.write("Horario: " + horario + "\n")
+              
+                robo.say("Qual o dia da rotina?")
+                print("Qual o dia da rotina?")
+                robo.runAndWait()
+                audio = recon.listen(source)
+                recon.adjust_for_ambient_noise(source)
+                res = recon.recognize_google(audio, language='pt-BR')
+               
+                dia = res.lower()
+                print("Texto reconhecido: ", dia)
+                arquivo.write("Dia: " + dia + "\n")
 
-                    robo.say("Qual horario deseja criar a rotina?")
-                    print("Qual horario deseja criar a rotina?")
-                    robo.runAndWait()
-                    
-                    audio = recon.listen(source)
-                    res = recon.recognize_google(audio, language='pt-BR')
-                    recon.adjust_for_ambient_noise(source, duration=4)
-                    resposta = res.lower()
-                    print("Texto reconhecido: ", resposta)
-                    arquivo.write("Horario" + resposta + "\n")
+                robo.say("O que a rotina irá fazer?")
+                print("O que a rotina irá fazer?")
+                robo.runAndWait()
+                audio = recon.listen(source)
+                recon.adjust_for_ambient_noise(source)
+                res = recon.recognize_google(audio, language='pt-BR')
+               
+                acao = res.lower()
+                print("Texto reconhecido: ", acao)
+                arquivo.write("Acao: " + acao + "\n")
 
-                    robo.say("Qual nome da planta que deseja criar a rotina?")
-                    print("Qual nome da planta que deseja criar a rotina?")
-                    robo.runAndWait()
-
-                    audio = recon.listen(source)
-                    res = recon.recognize_google(audio, language='pt-BR')
-                    recon.adjust_for_ambient_noise(source, duration=4)
-                    resposta = res.lower()
-                    print("Texto reconhecido: ", resposta)
-                    arquivo.write(resposta + "\n")
-
-                
-                    robo.say("Qual a quantidade de dias que deseja criar a rotina?")
-                    print("Qual a quantidade de dias que deseja criar a rotina?")
-                    robo.runAndWait()
-
-                    audio = recon.listen(source)
-                    res = recon.recognize_google(audio, language='pt-BR')
-                    recon.adjust_for_ambient_noise(source,)
-                    resposta = res.lower()
-                    print("Texto reconhecido: ", resposta)
-                    arquivo.write(resposta + "\n")
-                    arquivo.close()
-                    robo.say("Arquivo criado com sucesso")
-                    print("Arquivo criado com sucesso")
-                    robo.runAndWait()
-                    break
             
+                with open("./Rotinas/" + nome + ".json", "r") as arquivo:
+                    for linha in arquivo:
+                        command, desciption = linha.strip().split(None, 1)
+                        dict1[command] = desciption.strip()
+                
+                arquivo=open("./Rotinas/" + nome + ".json", "w")
+                json.dump(dict1, arquivo, indent=1, sort_keys=False)
+                arquivo.close()
+
+                robo.say("Arquivo criado com sucesso")
+                print("Arquivo criado com sucesso")
+                robo.runAndWait()
+                data = json.load(open("./Rotinas/" + nome + ".json"))
+                json.dumps(data, indent=1)
+                print(data)
+                robo.say(data)
+                
+                break
+
             if "ler rotina" in resposta:
                 robo.say("Qual o nome da rotina?")
                 print("Qual o nome da rotina?")
                 robo.runAndWait()
                 audio = recon.listen(source)
+                recon.adjust_for_ambient_noise(source)
                 nome = recon.recognize_google(audio, language='pt-BR')
-                recon.adjust_for_ambient_noise(source, duration=4)
-                arquivo = open("Name: " + nome + ".txt", "r")
-                print(arquivo.read())
-                robo.say(arquivo.read())
+                arquivo = open("./Rotinas/" + nome + ".json", "r")
+                data = json.load(open("./Rotinas/" + nome + ".json"))
+                json.dumps(data, indent=1)
+                print(data)
+                robo.say(data)
                 robo.runAndWait()
                 break
             
@@ -208,8 +226,8 @@ with sr.Microphone(2) as source:
                 break
 
             else:
-                robo.say("Okay, muito obrigado! Até mais tarde senhor!")
+                robo.say("Desculpa nao entendi! Poderia repetir?")
                 robo.runAndWait()
-                print("Okay, muito obrigado! Até mais tarde senhor!")
-                Break
+                print("Desculpa nao entendi! Poderia repetir?")
+                continue
 

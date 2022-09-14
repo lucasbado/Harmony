@@ -1,14 +1,18 @@
+from distutils.cmd import Command
 import os
 from time import sleep
 from Api import Weather
-import os
 from datetime import datetime
+import json
+from pathlib import Path
 
+dict1 = {}
 
 print("Como posso ajudar?")
 
-while not "sair" in resposta:
+while True:
     resposta = input("")
+    resposta = resposta.lower()
 
     if "nível da água" in resposta:
         print("digite o nivel da agua")
@@ -36,31 +40,46 @@ while not "sair" in resposta:
     if "criar rotina" in resposta:
        
 
-        print("Digite o nome da rotina")
+        print("Digite o nome da planta")
         nome = input("")
-        arquivo = open(nome + ".txt", "w")
+        Path('./Rotinas').mkdir(parents=True, exist_ok=True)
+        arquivo = open("./Rotinas/" + nome + ".json", "w")
+        arquivo.write("Nome: " + nome + "\n")
 
         print("Digite o horário da rotina")
         horario = input("")
-        arquivo.write("Horário: " + horario + "\n")
+        arquivo.write( "Horario: " + horario + "\n")
         
         print("Digite os dias da rotina")
         dia = input("")
-        arquivo.write("Dia: " + dia + "\n")
+        arquivo.write( "Dia: " + dia + "\n")
 
         print("Digite o que a rotina irá fazer")
         acao = input("")
-        arquivo.write("Ação:" + acao + "\n")
+        arquivo.write("Acao: " + acao + "\n")
+        
+        
+        with open("./Rotinas/" + nome + ".json", "r" ) as arquivo:
+            for linha in arquivo:
+                command, desciption = linha.strip().split(None, 1)
+                dict1[command] = desciption.strip()
 
+        arquivo=open("./Rotinas/" + nome + ".json", "w")
+        json.dump(dict1, arquivo, indent=1, sort_keys=False)
         arquivo.close()
+
+
         print("Rotina criada com sucesso")
-        print (arquivo.read())
+        data = json.load("./Rotinas/" + nome + ".json")
+        print(data)
         break
-    if "executar rotina" in resposta:
+
+    if "consultar rotina" in resposta:
         print("Digite o nome da rotina")
         nome = input("")
-        arquivo = open(nome + ".txt", "r")
-        print(arquivo.read())
+        arquivo = open("./Rotinas/" + nome + ".json", "r")
+        data = json.load(arquivo)
+        print(data)
         break
 
     if "regar" in resposta:
