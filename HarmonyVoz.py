@@ -1,4 +1,3 @@
-from ast import Break
 from datetime import datetime
 import speech_recognition as sr
 import pyttsx3
@@ -14,11 +13,10 @@ hora = (str(datetime.today().hour) + ":" + str(datetime.today().minute))
 data = (str(datetime.today().day) + "/" + str(datetime.today().month) + "/" + str(datetime.today().year))
 diasDaSemana = ("segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo")
 
-
 parar = False
 
 with sr.Microphone(1) as source:
-    while not "não" in resposta:
+    while parar == False:
         robo = pyttsx3.init()
         robo.say(" Posso ajudar em alguma coisa?")
         print("Posso ajudar em alguma coisa?")
@@ -40,7 +38,7 @@ with sr.Microphone(1) as source:
             
             if "nível da água" in resposta:
                 print("digite o nivel da agua")
-                robo.say("digite o nivel da agua")
+                robo.say("digite o nivel da agua") #quem irá entrar com essa informação sera o arduino.
                 robo.runAndWait()
                 niv = int(input("Digite o nível da água: "))
                
@@ -106,12 +104,7 @@ with sr.Microphone(1) as source:
                         robo.runAndWait()
                         break
                        
-               
-                        
-
-                
-           
-            #wether with a API from openweathermap.org
+            
             if "clima" in resposta:
                 robo.say("Qual a cidade?")
                 print("Qual a cidade?")
@@ -119,15 +112,12 @@ with sr.Microphone(1) as source:
                 audio = recon.listen(source)
                 recon.adjust_for_ambient_noise(source)
                 clima = recon.recognize_google(audio, language='pt-BR')
-               
-                city = clima.lower()
-                print (Weather.get_weather(city))
-                robo.say(Weather.get_weather(city))
+                city = clima
+                print("Texto reconhecido: ", city)
+                robo.say (Weather.get_weather(city))
                 robo.runAndWait()
                 break
 
-           
-       
             if "criar rotina" in resposta:
                 robo.say("Qual o nome da planta?")
                 print("Qual o nome da rotina?")
@@ -140,15 +130,6 @@ with sr.Microphone(1) as source:
                 arquivo = open("./Rotinas/" + nome + ".json", "w")
                 arquivo.write("Nome: " + nome + "\n")
                 
-                # robo.say("Para quando deseja criar a rotina?")
-                # print("Para quando deseja criar a rotina?")
-                # robo.runAndWait()
-                # audio = recon.listen(source)
-                recon.adjust_for_ambient_noise(source)
-                # res = recon.recognize_google(audio, language='pt-BR')
-                #
-                # resposta = res.lower()
-                # print("Texto reconhecido: ", resposta)
                 
                 robo.say("Qual o horário da rotina?")
                 print("Qual o horário da rotina?")
@@ -193,8 +174,8 @@ with sr.Microphone(1) as source:
                 json.dump(dict1, arquivo, indent=1, sort_keys=False)
                 arquivo.close()
 
-                robo.say("Arquivo criado com sucesso")
-                print("Arquivo criado com sucesso")
+                robo.say("Rotina criada com sucesso")
+                print("Rotina criado com sucesso")
                 robo.runAndWait()
                 data = json.load(open("./Rotinas/" + nome + ".json"))
                 json.dumps(data, indent=1)
@@ -219,8 +200,8 @@ with sr.Microphone(1) as source:
                 break
             
 
-            if "saindo" in resposta:
-                robo.say("OK! Até mais tarde senhor!")
+            if "sair" in resposta:
+                robo.say("OK! Até mais tarde!")
                 robo.runAndWait()
                 parar = True
                 break

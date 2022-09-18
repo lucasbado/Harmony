@@ -8,8 +8,8 @@ board = pyfirmata.Arduino(port) #Criamos a variável board que realizará os com
 numeroBlink = input('Insira o número de vezes que o LED deve piscar:  ') #Temos um input, que pede ao usuário para inserir um número de piscadas para o LED realizar
 print("Piscando " + numeroBlink + " vezes.") #Com este comando opcional, imprimimos na tela quantas vezes o led irá piscar.
  
-for x in range(int(numeroBlink)):#A cada elemento no escopo da variável numeroBlink, realizar os seguintes comandos:
-      board.digital[13].write(1)#Utilizamos a variável board e seu método .Digital para dizer ao pino 13 que ele deve acender
-      time.sleep(1)#Colocamos uma pausa de 0.01 segundos
-      board.digital[13].write(0)#Utilizamos a variável board e seu método .Digital para dizer ao pino 13 que ele deve apagar
-      time.sleep(1)#Colocamos uma pausa de 0.01 segundos
+for x in range(int(numeroBlink)): #A cada elemento no escopo da variável numeroBlink, realizar os seguintes comandos:
+      board.digital[13].write(1) #Utilizamos a variável board e seu método .Digital para dizer ao pino 13 que ele deve acender
+      time.sleep(1) #Colocamos uma pausa de 0.01 segundos
+      board.digital[13].write(0) #Utilizamos a variável board e seu método .Digital para dizer ao pino 13 que ele deve apagar
+      time.sleep(1) #Colocamos uma pausa de 0.01 segundos

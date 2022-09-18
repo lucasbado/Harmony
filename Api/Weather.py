@@ -17,10 +17,11 @@ def get_weather(city):
     temperatura = requisicao_dic["main"]["temp"] - 273.15;
     nostr_temp = pickle.dumps(temperatura);
     str_temp = pickle.loads(nostr_temp);
+    temp = int(str_temp);
 
 
-
-    print(str_disc, f"{str_temp}°C");
+    print (f"{str_disc}", f"{temp}°Celcius");
+    return (f"{str_disc}", f"{temp}°Celcius");
 
 
 
