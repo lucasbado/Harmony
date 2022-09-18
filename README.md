@@ -8,8 +8,9 @@ Integrantes:
   * 86664 - Thiago Vazquez Enninger
   * 89358 – Erlís Brito Gonçalves de Lima
 
+Link do video: https://www.youtube.com/watch?v=jSivZ2qy3no
 
-Repositorio com o Interpretador e as libs estão juntos no repositorio.
+Rodar PIP install na arquivo dependencias 
 
 Para rodar o codigo, pode escolher qual arquivo .PY voce quer rodar. Sendo o harmony.py o menu para a escolha entre chat ou voz. 
 
@@ -24,3 +25,4 @@ COMANDOS:
 "clima" 
 
 "sair"
+
