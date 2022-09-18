@@ -21,8 +21,6 @@ COMANDOS:
 
 "Consultar rotina "
 
-"regar" 
-
 "clima" 
 
 "sair"
