@@ -2,3 +2,5 @@ speech_recognition
 pyttsx3
 pyautogui
 pathlib
+requests 
+pickle

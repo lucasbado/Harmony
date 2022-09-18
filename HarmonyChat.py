@@ -1,8 +1,5 @@
-from distutils.cmd import Command
-import os
 from time import sleep
 from Api import Weather
-from datetime import datetime
 import json
 from pathlib import Path
 
